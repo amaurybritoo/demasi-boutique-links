@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 330" role="img" aria-label="Demasi Boutique">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8e5b8"/>
+      <stop offset=".34" stop-color="#d9b36b"/>
+      <stop offset=".68" stop-color="#b47f3d"/>
+      <stop offset="1" stop-color="#f1d394"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="210" cy="125" r="92" fill="none" stroke="url(#gold)" stroke-width="2" opacity=".9"/>
+  <circle cx="210" cy="125" r="82" fill="none" stroke="url(#gold)" stroke-width="1" opacity=".24"/>
+  <g filter="url(#glow)" fill="none" stroke="url(#gold)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M160 75h43c30 0 48 18 48 50s-18 50-48 50h-43V75Zm18 18v64h23c19 0 31-11 31-32s-12-32-31-32h-23Z" stroke-width="4"/>
+    <path d="M196 82h43c27 0 43 17 43 43s-16 43-43 43h-43" stroke-width="3" opacity=".72"/>
+  </g>
+  <text x="210" y="275" text-anchor="middle" fill="url(#gold)" font-family="Georgia,serif" font-size="38" letter-spacing="12">DEMASI</text>
+  <text x="210" y="300" text-anchor="middle" fill="#e7cca0" font-family="Arial,sans-serif" font-size="9" letter-spacing="6">BOUTIQUE</text>
+</svg>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#120906">
+  <title>Demasi • Central de Links</title>
+  <link rel="icon" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-bg"></div><div class="admin-glow admin-glow-a"></div><div class="admin-glow admin-glow-b"></div>
+  <main class="shell">
+    <section id="login" class="login-card">
+      <div class="login-logo"><img src="../assets/logo.svg" alt="Demasi Boutique"></div>
+      <span class="eyebrow">DEMASI LINKS</span>
+      <h1>Área exclusiva</h1>
+      <p class="login-subtitle">Acesse sua central para atualizar a página da bio da Demasi.</p>
+      <form id="loginForm" class="login-form">
+        <label>E-mail<input id="email" type="email" placeholder="seu@email.com" autocomplete="username" required></label>
+        <label>Senha<div class="password-wrap"><input id="password" type="password" placeholder="Sua senha" autocomplete="current-password" required><button id="togglePassword" type="button" aria-label="Mostrar senha">Mostrar</button></div></label>
+        <button class="primary login-button" type="submit"><span>Entrar na central</span><b>→</b></button>
+        <div id="loginError" role="alert"></div>
+      </form>
+      <div class="login-foot"><span>Área restrita</span><i>•</i><span>Acesso protegido</span></div>
+    </section>
+
+    <section id="app" hidden>
+      <header class="app-head">
+        <div class="head-brand"><span class="eyebrow">DEMASI LINKS</span><h1>Central da bio</h1><p id="currentLabel">Perfil principal</p></div>
+        <div class="head-actions"><a href="../" target="_blank" rel="noopener noreferrer">Ver página ↗</a><button id="logout" class="ghost" type="button">Sair</button></div>
+      </header>
+      <div id="toast" role="status"></div>
+
+      <div class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-title-row"><div><span class="eyebrow">IDENTIDADE</span><h2>Aparência e informações</h2><p class="hint">Logo, fundo, endereço e canais principais desta página.</p></div></div>
+          <form id="settingsForm" class="form-grid">
+            <label>Nome<input id="name" required></label>
+            <label>Descrição<input id="bio"></label>
+            <label class="wide">Endereço<input id="address"></label>
+            <label class="wide">Endereço usado no mapa<input id="location_query"></label>
+            <label>Logo<input id="logoFile" type="file" accept="image/*"><small>Envie apenas se quiser trocar.</small><button id="resetLogo" class="mini-reset" type="button">↺ Voltar para logo padrão</button></label>
+            <label>Fundo<input id="backgroundFile" type="file" accept="image/*"><small>Imagem vertical ou horizontal.</small><button id="resetBackground" class="mini-reset" type="button">↺ Voltar para imagem padrão</button></label>
+            <label class="wide">WhatsApp<input id="whatsapp" placeholder="https://..." inputmode="url"></label>
+            <label>Instagram<input id="instagram" placeholder="https://instagram.com/..." inputmode="url"></label>
+            <label>TikTok<input id="tiktok" placeholder="Cole quando tiver" inputmode="url"></label>
+            <label>Grupo VIP<input id="vip" placeholder="https://chat.whatsapp.com/..." inputmode="url"></label>
+            <label>Catálogo<input id="catalogo" placeholder="https://..." inputmode="url"></label>
+            <div class="wide form-actions"><button class="primary" type="submit">Salvar alterações <b>→</b></button></div>
+          </form>
+        </section>
+
+        <section class="panel links-panel">
+          <div class="panel-title-row links-heading"><div><span class="eyebrow">LINKS</span><h2>Botões da página</h2><p class="hint">Crie quantos quiser. O tipo é livre: TikTok, YouTube, site, campanha, outro catálogo ou qualquer canal.</p></div><button id="addLink" class="secondary" type="button">+ Adicionar link</button></div>
+          <div class="link-help"><span>O tipo é livre — você escreve o que quiser</span><i>•</i><span>Ativo continua com Sim / Não</span></div>
+          <div id="linksList"></div>
+        </section>
+      </div>
+      <p class="security-note"><span>🔒</span> Esta central exige login. O visitante só vê os links que estiverem marcados como <strong>Ativo · Sim</strong>.</p>
+    </section>
+  </main>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

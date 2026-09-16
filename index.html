@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#120906">
+  <meta name="description" content="Demasi Boutique — todos os nossos links em um só lugar.">
+  <link rel="icon" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Demasi Boutique • Links</title>
+</head>
+<body>
+  <div id="backdrop" class="backdrop" aria-hidden="true"></div>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <div class="gold-rain" aria-hidden="true"></div>
+  <div id="sparkleField" class="sparkle-field" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="page">
+    <div class="top-actions">
+      <div class="welcome-pill"><i>✦</i><span>Seja bem-vinda</span><b>♡</b></div>
+      <button id="shareBtn" class="share" type="button" aria-label="Compartilhar esta página">
+        <span class="share-icon" aria-hidden="true"></span><span class="share-label">Compartilhar</span>
+      </button>
+    </div>
+
+    <section class="profile" aria-label="Perfil">
+      <div class="logo-wrap">
+        <span class="logo-glow" aria-hidden="true"></span>
+        <span class="logo-ring" aria-hidden="true"></span>
+        <span class="logo-ring ring-2" aria-hidden="true"></span>
+        <span class="logo-orbit" aria-hidden="true"></span>
+        <img id="logo" src="assets/logo.svg" alt="Demasi Boutique">
+      </div>
+      <h1 id="name">Demasi Boutique</h1>
+      <p id="bio">Elegância que combina com você.</p>
+      <div class="profile-line" aria-hidden="true"><span></span><i>✦</i><span></span></div>
+    </section>
+
+    <nav id="links" class="links" aria-label="Links da Demasi"></nav>
+
+    <section class="location-card" aria-label="Localização">
+      <div class="location-info">
+        <span class="eyebrow">VISITE NOSSA LOJA</span>
+        <h2>Esperamos por você</h2>
+        <div class="address-highlight">
+          <span class="address-pin" aria-hidden="true"></span>
+          <p id="address">Rua Dom Milton Correia Pereira, 1010<br>Parque 10 de Novembro • Manaus, AM<br>69055-440 • Brasil</p>
+        </div>
+        <a id="mapLink" class="map-button" href="#" target="_blank" rel="noopener noreferrer">
+          <span class="map-button-icon" aria-hidden="true"></span><span>Abrir no mapa</span><b>→</b>
+        </a>
+      </div>
+      <div class="map-wrap">
+        <div class="map">
+          <iframe id="mapFrame" title="Mapa da localização da Demasi Boutique" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <span class="map-vignette" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-rule"><span></span><i>✦</i><span></span></div>
+      <strong id="footerName">DEMASI BOUTIQUE</strong>
+      <small id="footerPhrase">Elegância que combina com você.</small>
+      <div class="footer-copy"><span>© <span id="footerYear"></span></span><i>•</i><span>Todos os direitos reservados</span></div>
+    </footer>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
