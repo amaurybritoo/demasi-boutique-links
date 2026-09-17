@@ -16,16 +16,19 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&l
 async function getJSON(path){const r=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}});if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}
 function currentSlug(){const m=location.pathname.match(/^\/loja\/([^/]+)/i);return m?decodeURIComponent(m[1]):new URLSearchParams(location.search).get('loja')}
 function mapDestination(q){return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`}
-function makeMap(q){const encoded=encodeURIComponent(q);document.getElementById('mapFrame').src=`https://www.google.com/maps?q=${encoded}&z=18&hl=pt-BR&output=embed`;document.getElementById('mapLink').href=mapDestination(q)}
+function makeMap(q){const frame=document.getElementById('mapFrame');const link=document.getElementById('mapLink');const query=q||DEFAULT.location_query;const src=`https://www.google.com/maps?q=${encodeURIComponent(query)}&z=18&hl=pt-BR&output=embed`;link.href=mapDestination(query);if(frame.dataset.mapQuery===query)return;frame.dataset.mapQuery=query;if(frame.src!==src)frame.src=src}
+function loadMap(){const frame=document.getElementById('mapFrame');if(!frame)return;makeMap(frame.dataset.mapQuery||DEFAULT.location_query)}
+function setupMap(){loadMap()}
 function iconFor(type){const t=String(type||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');if(t.includes('whatsapp'))return ICONS.whatsapp;if(t.includes('instagram'))return ICONS.instagram;if(t.includes('tiktok'))return ICONS.tiktok;if(t.includes('youtube'))return ICONS.youtube;if(t.includes('vip'))return ICONS.vip;if(t.includes('local')||t.includes('mapa')||t.includes('endereco'))return ICONS.location;if(t.includes('catalog'))return ICONS.catalogo;return ICONS.link}
-function renderLinks(s,rows){
+function renderLinks(s,rows,animate=true){
   const links=document.getElementById('links');
   let list=(rows||[]).filter(x=>x.enabled!==false&&x.url).sort((a,b)=>(a.sort_order??0)-(b.sort_order??0));
   if(!list.length){
     list=[['catalogo','Ver nosso catálogo','Explore nossas peças',s.catalogo],['whatsapp','Falar no WhatsApp','Atendimento e novidades',s.whatsapp],['instagram','Instagram','Acompanhe a Demasi',s.instagram],['tiktok','TikTok','Siga a Demasi',s.tiktok],['vip','Grupo VIP','Ofertas exclusivas e novidades',VIP]]
       .filter(x=>x[3]).map((x,i)=>({type:x[0],title:x[1],subtitle:x[2],url:x[3],enabled:true,sort_order:i}));
   }
-  links.innerHTML=list.map((x,i)=>`<a class="link-card${x.type==='vip'?' vip-card':''}" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer" style="--delay:${i*70}ms"><span class="link-shimmer"></span><span class="link-icon">${iconFor(x.type)}</span><span class="link-copy"><b>${esc(x.title)}</b>${x.subtitle?`<small>${esc(x.subtitle)}</small>`:''}</span>${x.type==='vip'?'<em class="vip-badge">EXCLUSIVO</em>':''}<span class="link-arrow">→</span></a>`).join('');
+  links.classList.toggle('no-intro',!animate);
+  links.innerHTML=list.map((x,i)=>`<a class="link-card${x.type==='vip'?' vip-card':''}" href="${esc(x.url)}" style="--delay:${i*70}ms"><span class="link-shimmer"></span><span class="link-icon">${iconFor(x.type)}</span><span class="link-copy"><b>${esc(x.title)}</b>${x.subtitle?`<small>${esc(x.subtitle)}</small>`:''}</span>${x.type==='vip'?'<em class="vip-badge">EXCLUSIVO</em>':''}<span class="link-arrow">→</span></a>`).join('');
 }
 function formatAddress(value){const parts=String(value||DEFAULT.address).split(',').map(x=>x.trim()).filter(Boolean);if(parts.length>=4)return `${esc(parts[0])}, ${esc(parts[1])}<br>${esc(parts.slice(2,4).join(' • '))}<br>${esc(parts.slice(4).join(' • '))}`;return esc(value||DEFAULT.address)}
 function apply(s){
@@ -36,7 +39,37 @@ function apply(s){
 }
 function createStars(){const box=document.getElementById('goldStars');if(!box)return;box.innerHTML='';for(let i=0;i<22;i++){const star=document.createElement('span');star.className='gold-star';star.textContent='✦';star.style.left=(Math.random()*100).toFixed(2)+'%';star.style.top=(-10-Math.random()*40).toFixed(2)+'%';star.style.setProperty('--fall', (11+Math.random()*9).toFixed(2)+'s');star.style.setProperty('--delay', (-Math.random()*18).toFixed(2)+'s');star.style.setProperty('--drift', ((Math.random()-.5)*70).toFixed(1)+'px');star.style.setProperty('--scale',(0.45+Math.random()*.55).toFixed(2));box.appendChild(star)}}
 createStars();
-async function boot(){let s={...DEFAULT},rows=[];const slug=currentSlug();try{if(slug){const p=await getJSON(`link_page_profiles?slug=eq.${encodeURIComponent(slug)}&enabled=eq.true&select=*`);if(p[0]){s={...s,...p[0]};rows=await getJSON(`link_page_links?profile_id=eq.${p[0].id}&enabled=eq.true&select=*&order=sort_order.asc`)}}else{const a=await getJSON('link_page_settings?id=eq.1&select=*');if(a[0])s={...s,...a[0]};rows=await getJSON('link_page_links?profile_id=is.null&enabled=eq.true&select=*&order=sort_order.asc')}}catch(e){console.warn('[DEMASI LINKS] usando configuração local:',e)}apply(s);renderLinks(s,rows)}
+async function boot(){
+  // Render immediately with local defaults so the cards never wait for the network.
+  let s={...DEFAULT},rows=[];
+  apply(s);
+  renderLinks(s,rows);
+  setupMap();
+
+  const slug=currentSlug();
+  try{
+    if(slug){
+      const p=await getJSON(`link_page_profiles?slug=eq.${encodeURIComponent(slug)}&enabled=eq.true&select=*`);
+      if(p[0]){
+        s={...s,...p[0]};
+        const links=await getJSON(`link_page_links?profile_id=eq.${p[0].id}&enabled=eq.true&select=*&order=sort_order.asc`);
+        rows=links||[];
+      }
+    }else{
+      const [a,links]=await Promise.all([
+        getJSON('link_page_settings?id=eq.1&select=*'),
+        getJSON('link_page_links?profile_id=is.null&enabled=eq.true&select=*&order=sort_order.asc')
+      ]);
+      if(a[0])s={...s,...a[0]};
+      rows=links||[];
+    }
+    apply(s);
+    renderLinks(s,rows,false);
+    setupMap();
+  }catch(e){
+    console.warn('[DEMASI LINKS] usando configuração local:',e);
+  }
+}
 document.getElementById('shareBtn').addEventListener('click',async()=>{const b=document.getElementById('shareBtn'),label=b.querySelector('.share-label');try{if(navigator.share){await navigator.share({title:document.title,url:location.href});return}if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(location.href)}else{const ta=document.createElement('textarea');ta.value=location.href;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}b.classList.add('copied');if(label){label.textContent='Link copiado';setTimeout(()=>label.textContent='Compartilhar',1600)}setTimeout(()=>b.classList.remove('copied'),1600)}catch(e){if(e&&e.name!=='AbortError'){b.classList.add('copied');if(label){label.textContent='Toque para compartilhar';setTimeout(()=>label.textContent='Compartilhar',1800)}setTimeout(()=>b.classList.remove('copied'),1800)}}});boot();
 
 // Microestrelas douradas: leves, aleatórias e não interativas.

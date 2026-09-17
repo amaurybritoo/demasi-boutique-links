@@ -7,6 +7,8 @@
   <meta name="description" content="Demasi Boutique — todos os nossos links em um só lugar.">
   <link rel="icon" href="assets/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://www.google.com">
+  <link rel="preconnect" href="https://maps.google.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -51,13 +53,13 @@
           <span class="address-pin" aria-hidden="true"></span>
           <p id="address">Rua Dom Milton Correia Pereira, 1010<br>Parque 10 de Novembro • Manaus, AM<br>69055-440 • Brasil</p>
         </div>
-        <a id="mapLink" class="map-button" href="#" target="_blank" rel="noopener noreferrer">
+        <a id="mapLink" class="map-button" href="#">
           <span class="map-button-icon" aria-hidden="true"></span><span>Abrir no mapa</span><b>→</b>
         </a>
       </div>
       <div class="map-wrap">
         <div class="map">
-          <iframe id="mapFrame" title="Mapa da localização da Demasi Boutique" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe id="mapFrame" title="Mapa da localização da Demasi Boutique" loading="eager" fetchpriority="high" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Demasi%20Boutique%2C%20Rua%20Dom%20Milton%20Correia%20Pereira%2C%201010%2C%20Parque%2010%20de%20Novembro%2C%20Manaus%2C%20AM%2C%2069055-440&z=18&hl=pt-BR&output=embed"></iframe>
           <span class="map-vignette" aria-hidden="true"></span>
         </div>
       </div>
@@ -68,6 +70,7 @@
       <strong id="footerName">DEMASI BOUTIQUE</strong>
       <small id="footerPhrase">Elegância que combina com você.</small>
       <div class="footer-copy"><span>© <span id="footerYear"></span></span><i>•</i><span>Todos os direitos reservados</span></div>
+      <div class="footer-dev">Desenvolvido por <span>Amaury B.</span></div>
     </footer>
   </main>
 
