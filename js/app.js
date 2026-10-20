@@ -28,7 +28,7 @@ function renderLinks(s,rows,animate=true){
       .filter(x=>x[3]).map((x,i)=>({type:x[0],title:x[1],subtitle:x[2],url:x[3],enabled:true,sort_order:i}));
   }
   links.classList.toggle('no-intro',!animate);
-  links.innerHTML=list.map((x,i)=>`<a class="link-card${x.type==='vip'?' vip-card':''}" href="${esc(x.url)}" style="--delay:${i*70}ms"><span class="link-shimmer"></span><span class="link-icon">${iconFor(x.type)}</span><span class="link-copy"><b>${esc(x.title)}</b>${x.subtitle?`<small>${esc(x.subtitle)}</small>`:''}</span>${x.type==='vip'?'<em class="vip-badge">EXCLUSIVO</em>':''}<span class="link-arrow">→</span></a>`).join('');
+  links.innerHTML=list.map((x,i)=>`<a class="link-card${x.type==='vip'?' vip-card':''}" href="${esc(x.url)}" style="--delay:${i*70}ms"><span class="link-shimmer"></span><span class="link-icon">${iconFor(x.type)}</span><span class="link-copy"><b>${esc(x.title)}</b>${x.subtitle?`<small>${esc(x.subtitle)}</small>`:''}</span>${x.type==='vip'?'<em class="vip-badge"><span>EXCLUSIVO</span></em>':''}</a>`).join('');
 }
 function formatAddress(value){const parts=String(value||DEFAULT.address).split(',').map(x=>x.trim()).filter(Boolean);if(parts.length>=4)return `${esc(parts[0])}, ${esc(parts[1])}<br>${esc(parts.slice(2,4).join(' • '))}<br>${esc(parts.slice(4).join(' • '))}`;return esc(value||DEFAULT.address)}
 function apply(s){
